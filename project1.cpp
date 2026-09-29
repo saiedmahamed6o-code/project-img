@@ -15,32 +15,6 @@ void applyGrayscale(Image& img) {
     }
 }
 
-void blackAndWhite(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            unsigned int avg = (img(i, j, 0) + img(i, j, 1) + img(i, j, 2)) / 3;
-            if(avg >=127){
-                img(i, j, 0) = 255;
-                img(i, j, 1) = 255;
-                img(i, j, 2) = 255;
-            }
-            else{
-                img(i, j, 0) = 0;
-                img(i, j, 1) = 0;
-                img(i, j, 2) = 0;
-            }
-        }
-    }
-}
-void invert(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                img(i,j,k)=255-img(i,j,k);
-            }
-        }
-    }
-}
 
 void FlippedVertical(Image& img){
     Image flipped(img.width,img.height);
@@ -66,48 +40,6 @@ void FlippedHorizontally(Image& img){
     img=flipped;
 }
 
-void rotated90(Image& img){
-    Image rotated(img.height,img.width);
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                rotated(img.height-1-j,i,k)=img(i,j,k);
-            }
-        }
-    }
-    img=rotated;
-}
-void rotated180(Image& img){
-    rotated90(img);
-    rotated90(img);
-}
-
-void rotated270(Image& img){
-    rotated90(img);
-    rotated90(img);
-    rotated90(img);
-}
-
-void Darken(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                img(i,j,k)=img(i,j,k) * 0.5;
-            }
-        }
-    }
-}
-
-void Lighten(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                int val=255-img(i,j,k);
-                img(i,j,k)=img(i,j,k) +(val/2);
-            }
-        }
-    }
-}
 
 int main() {
     string filename;
@@ -151,21 +83,10 @@ int main() {
                     invert(currentImage);
                     cout << "Invert applied successfully!\n";
                     break;
-                // case 4:
-                //     currentImage=originalImage;
-                //     int ans4;
-                //     cout<<"1.simple frame\n";
-                //     cout<<"2.decorative frame\n";
-                //     cout<<"enter choice: ";
-                //     cin>>ans4;
-                //     cout<<endl;
-                //     if(ans4==1){
-
-                //     }
-                //     else{
-
-                //     }
-                //     break;
+                case 4:
+                    currentImage=originalImage;
+                    applyFrameFilter(currentImage);
+                   break;
                 case 5:
                     currentImage=originalImage;
                     int ans;
