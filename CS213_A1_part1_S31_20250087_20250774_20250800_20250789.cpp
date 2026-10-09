@@ -85,6 +85,90 @@ void sunlight(Image& img){
     }
 }
 
+//filter 2
+void blackAndWhite(Image& img){
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            unsigned int avg = (img(i, j, 0) + img(i, j, 1) + img(i, j, 2)) / 3;
+            if(avg >=127){
+                img(i, j, 0) = 255;
+                img(i, j, 1) = 255;
+                img(i, j, 2) = 255;
+            }
+            else{
+                img(i, j, 0) = 0;
+                img(i, j, 1) = 0;
+                img(i, j, 2) = 0;
+            }
+        }
+    }
+}
+//filter 6
+void rotated90(Image& img){
+    Image rotated(img.height,img.width);
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for(int k=0;k<3;k++){
+                rotated(img.height-1-j,i,k)=img(i,j,k);
+            }
+        }
+    }
+    img=rotated;
+}
+
+//filter 6
+void rotated180(Image& img){
+    rotated90(img);
+    rotated90(img);
+}
+
+//filter 6
+void rotated270(Image& img){
+    rotated90(img);
+    rotated90(img);
+    rotated90(img);
+}
+//filter 10
+void Detect(Image& img){
+    blackAndWhite(img);
+    Image DetectImg(img.width, img.height);
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for(int k=0; k<3; k++){
+                if(i == 0 || j == 0 || i == img.width - 1 || j == img.height - 1){
+                    DetectImg(i,j,k) = 255;
+                }
+                else{
+                    int count = abs(img(i-1,j-1,k) - img(i,j,k));
+                    if(count > 20){
+                        DetectImg(i,j,k) = 0;
+                    }
+                    else{
+                        DetectImg(i,j,k) = 255;
+                    }
+                }
+            }
+        }
+    }
+    img = DetectImg;
+}
+//filter 14
+void applyOldTVEffect(Image& image) {
+    for (int j = 0; j < image.height; ++j) {
+        for (int i = 0; i < image.width; ++i) {
+            for (int c = 0; c < 3; ++c) {
+                int color = image(i, j, c);
+
+                if (j % 2 == 0) {
+                    color = color * 0.6;
+                }
+
+                image(i, j, c) = color;
+            }
+        }
+    }
+}
+
 
 
 
