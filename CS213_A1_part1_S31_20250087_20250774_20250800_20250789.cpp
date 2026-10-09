@@ -1,8 +1,6 @@
 // أقسم بالله أن هذا الكود من عمل الفريق 100٪ بلا نسخ من اي مصدر أو تخليق ب Ai
 // Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5
-// Youssef Adel Hussein Mohamed  - 20250774 - filter-> 2,6
-// Youssef Mohamed Abdul Hafeez  - 20250789 - filter-> 3,7
-// Ahmad Hany Ibrahim Akrab      - 20250800 - filter-> 4,8
+
 
 
 #include <iostream>
@@ -23,56 +21,7 @@ void applyGrayscale(Image& img) {
     }
 }
 
-//filter 2
-void blackAndWhite(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            unsigned int avg = (img(i, j, 0) + img(i, j, 1) + img(i, j, 2)) / 3;
-            if(avg >=127){
-                img(i, j, 0) = 255;
-                img(i, j, 1) = 255;
-                img(i, j, 2) = 255;
-            }
-            else{
-                img(i, j, 0) = 0;
-                img(i, j, 1) = 0;
-                img(i, j, 2) = 0;
-            }
-        }
-    }
-}
 
-//filter 3
-void invert(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                img(i,j,k)=255-img(i,j,k);
-            }
-        }
-    }
-}
-
-//filter 4
-void applyFrameFilter(Image& img,int r,int g,int b) {
-	
-	int borderWidth = 15;
-
-
-	for (int i = 0; i < img.height; ++i) {
-		for (int j = 0; j < img.width; ++j) {
-
-			
-			if (i < borderWidth || i >= img.height - borderWidth ||
-				j < borderWidth || j >= img.width - borderWidth) {
-
-				img(j, i, 0) = r;
-				img(j, i, 1) = g;
-				img(j, i, 2) = b;
-			}
-		}
-	}
-}
 
 //filter 5
 void FlippedVertical(Image& img){
@@ -100,74 +49,7 @@ void FlippedHorizontally(Image& img){
     img=flipped;
 }
 
-//filter 6
-void rotated90(Image& img){
-    Image rotated(img.height,img.width);
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                rotated(img.height-1-j,i,k)=img(i,j,k);
-            }
-        }
-    }
-    img=rotated;
-}
 
-//filter 6
-void rotated180(Image& img){
-    rotated90(img);
-    rotated90(img);
-}
-
-//filter 6
-void rotated270(Image& img){
-    rotated90(img);
-    rotated90(img);
-    rotated90(img);
-}
-
-//filter 7
-void Darken(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                img(i,j,k)=img(i,j,k) * 0.5;
-            }
-        }
-    }
-}
-
-//filter 7
-void Lighten(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                int val=255-img(i,j,k);
-                img(i,j,k)=img(i,j,k) +(val/2);
-            }
-        }
-    }
-}
-
-//filter 8
-Image  resizeImage(const Image& oldImg, int newWidth, int newHeight) {
-    Image newImg(newWidth, newHeight);
-
-    float scaleX = (float)oldImg.width / newWidth;
-    float scaleY = (float)oldImg.height / newHeight;
-
-    for (int i = 0; i < newWidth; ++i) {
-        for (int j = 0; j < newHeight; ++j) {
-            
-            int oldX = i * scaleX;
-            int oldY = j * scaleY;
-
-            for (int k = 0; k < 3; ++k) {
-                newImg(i, j, k) = oldImg(oldX, oldY, k);
-            }
-        }
-    }return newImg;
-}
 
 //filter 9
 void Merge (Image& img1 , Image& img2){
@@ -185,102 +67,7 @@ void Merge (Image& img1 , Image& img2){
     img1=newMerge;
 }
 
-//filter 10
-void Detect(Image& img){
-    blackAndWhite(img);
-    Image DetectImg(img.width, img.height);
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0; k<3; k++){
-                if(i == 0 || j == 0 || i == img.width - 1 || j == img.height - 1){
-                    DetectImg(i,j,k) = 255;
-                }
-                else{
-                    int count = abs(img(i-1,j-1,k) - img(i,j,k));
-                    if(count > 20){
-                        DetectImg(i,j,k) = 0;
-                    }
-                    else{
-                        DetectImg(i,j,k) = 255;
-                    }
-                }
-            }
-        }
-    }
-    img = DetectImg;
-}
 
-//filter 11
-void cropImage(Image& img, int startX, int startY, int targetW, int targetH) {
-    Image cropped(targetW, targetH);
-
-    for (int i = 0; i < targetW; ++i) {
-        for (int j = 0; j < targetH; ++j) {
-            for (int k = 0; k < 3; ++k) {
-                cropped(i, j, k) = img(startX + i, startY + j, k);
-            }
-        }
-    }
-
-    img = cropped;
-}
-
-//filter 12
-void horizontal_blur(Image& current_image, int radius) {
-
-    for (int j = 0; j < current_image.height; j++) {
-        for (int i = 0; i < current_image.width; i++) {
-            int sumR = 0, sumG = 0, sumB = 0;
-            int count = 0;
-            
-            for (int k= -radius; k <= radius; k++){
-                int x = i + k;
-                if (x >= 0 && x < current_image.width) {
-                    sumR += current_image(x, j, 0);
-                    sumG += current_image(x, j, 1);
-                    sumB += current_image(x, j, 2);
-                    count++;
-                }
-            }
-            current_image(i, j, 0) = sumR / count;
-            current_image(i, j, 1) = sumG / count;
-            current_image(i, j, 2) = sumB / count;
-        }
-    }
-
-}
-
-void vertical_blur(Image& current_image, int radius) {
-
-    for (int j = 0; j < current_image.height; j++) {
-        for (int i = 0; i < current_image.width; i++) {
-            int sumR = 0, sumG = 0, sumB = 0;
-            int count = 0;
-            
-            for (int l= -radius; l <= radius; l++){
-                int y = j + l;
-                if (y >= 0 && y < current_image.height) {
-                    sumR += current_image(i, y, 0);
-                    sumG += current_image(i, y, 1);
-                    sumB += current_image(i, y, 2);
-                    count++;
-                }
-            }
-            current_image(i, j, 0) = sumR / count;
-            current_image(i, j, 1) = sumG / count;
-            current_image(i, j, 2) = sumB / count;
-        }
-    }
-
-}
-
-void blur_image(Image& current_image,int radius) {
-
-
-    vertical_blur(current_image, radius);
-    horizontal_blur(current_image, radius);
-
-}
 
 //filter 13 
 void sunlight(Image& img){
@@ -298,53 +85,7 @@ void sunlight(Image& img){
     }
 }
 
-//filter 14
-void applyOldTVEffect(Image& image) {
-    for (int j = 0; j < image.height; ++j) {
-        for (int i = 0; i < image.width; ++i) {
-            for (int c = 0; c < 3; ++c) {
-                int color = image(i, j, c);
 
-                if (j % 2 == 0) {
-                    color = color * 0.6;
-                }
-
-                image(i, j, c) = color;
-            }
-        }
-    }
-}
-
-// filter 15
-void applyPurpleFilter(Image& img) {
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            int r = img(i, j, 0) * 1.2;
-
-            int g = img(i, j, 1) * 0.1;
-
-            int b = img(i, j, 2) * 1.2;
-
-            img(i, j, 0) = min(255,r);
-            img(i, j, 1) = min(255,g);
-            img(i, j, 2) = min(255,b);
-        }
-    }
-}
-
-/*  Filter 16____"Infrared Photography"  */ 
-
-void Xray(Image& image) {
-    for (int i = 0; i < image.height; ++i) {
-        for (int j = 0; j < image.width; ++j) {
-            image(j, i, 0) = 255; 
-
-            image(j, i, 1) = 255 - image(j, i, 1);
-
-            image(j, i, 2) = 255 - image(j, i, 2);
-        }
-    }
-}
 
 
 int main() {
