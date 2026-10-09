@@ -1,7 +1,7 @@
 // أقسم بالله أن هذا الكود من عمل الفريق 100٪ بلا نسخ من اي مصدر أو تخليق ب Ai
 // Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5
 
-
+// Youssef Mohamed Abdul Hafeez  - 20250789 - filter-> 3,7,11,15
 
 #include <iostream>
 #include <string>
@@ -20,7 +20,16 @@ void applyGrayscale(Image& img) {
         }
     }
 }
-
+//filter 3
+void invert(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0;k < 3;k++) {
+                img(i, j, k) = 255 - img(i, j, k);
+            }
+        }
+    }
+}
 
 
 //filter 5
@@ -49,6 +58,28 @@ void FlippedHorizontally(Image& img){
     img=flipped;
 }
 
+//filter 7
+void Darken(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0;k < 3;k++) {
+                img(i, j, k) = img(i, j, k) * 0.5;
+            }
+        }
+    }
+}
+
+//filter 7
+void Lighten(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0;k < 3;k++) {
+                int val = 255 - img(i, j, k);
+                img(i, j, k) = img(i, j, k) + (val / 2);
+            }
+        }
+    }
+}
 
 
 //filter 9
@@ -67,6 +98,20 @@ void Merge (Image& img1 , Image& img2){
     img1=newMerge;
 }
 
+//filter 11
+void cropImage(Image& img, int startX, int startY, int targetW, int targetH) {
+    Image cropped(targetW, targetH);
+
+    for (int i = 0; i < targetW; ++i) {
+        for (int j = 0; j < targetH; ++j) {
+            for (int k = 0; k < 3; ++k) {
+                cropped(i, j, k) = img(startX + i, startY + j, k);
+            }
+        }
+    }
+
+    img = cropped;
+}
 
 
 //filter 13 
@@ -84,8 +129,24 @@ void sunlight(Image& img){
         }
     }
 }
+//filter 15
+void applyPurpleFilter(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            int r = img(i, j, 0) + 50;
+            if (r > 255) r = 255;
 
+            int g = img(i, j, 1) * 0.5;
 
+            int b = img(i, j, 2) + 70;
+            if (b > 255) b = 255;
+
+            img(i, j, 0) = r;
+            img(i, j, 1) = g;
+            img(i, j, 2) = b;
+        }
+    }
+}
 
 
 int main() {
