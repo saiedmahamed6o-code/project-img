@@ -1,7 +1,6 @@
 // أقسم بالله أن هذا الكود من عمل الفريق 100٪ بلا نسخ من اي مصدر أو تخليق ب Ai
 // Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5
-
-
+// Ahmad Hany Ibrahim Akrab - 20250800 - filters-> 4,8,12,16
 
 #include <iostream>
 #include <string>
@@ -84,7 +83,100 @@ void sunlight(Image& img){
         }
     }
 }
+ 
+//filter 8
+Image  resizeImage(const Image& oldImg, int newWidth, int newHeight) {
+    Image newImg(newWidth, newHeight);
 
+    float scaleX = (float)oldImg.width / newWidth;
+    float scaleY = (float)oldImg.height / newHeight;
+
+    for (int i = 0; i < newWidth; ++i) {
+        for (int j = 0; j < newHeight; ++j) {
+
+            int oldX = i * scaleX;
+            int oldY = j * scaleY;
+
+            for (int k = 0; k < 3; ++k) {
+                newImg(i, j, k) = oldImg(oldX, oldY, k);
+            }
+        }
+    }return newImg;
+}
+ 
+
+//filter 12
+void horizontal_blur(Image& current_image, int radius) {
+
+    for (int j = 0; j < current_image.height; j++) {
+        for (int i = 0; i < current_image.width; i++) {
+            int sumR = 0, sumG = 0, sumB = 0;
+            int count = 0;
+
+            for (int k = -radius; k <= radius; k++) {
+                int x = i + k;
+                if (x >= 0 && x < current_image.width) {
+                    sumR += current_image(x, j, 0);
+                    sumG += current_image(x, j, 1);
+                    sumB += current_image(x, j, 2);
+                    count++;
+                }
+            }
+            current_image(i, j, 0) = sumR / count;
+            current_image(i, j, 1) = sumG / count;
+            current_image(i, j, 2) = sumB / count;
+        }
+    }
+
+}
+
+void vertical_blur(Image& current_image, int radius) {
+
+    for (int j = 0; j < current_image.height; j++) {
+        for (int i = 0; i < current_image.width; i++) {
+            int sumR = 0, sumG = 0, sumB = 0;
+            int count = 0;
+
+            for (int l = -radius; l <= radius; l++) {
+                int y = j + l;
+                if (y >= 0 && y < current_image.height) {
+                    sumR += current_image(i, y, 0);
+                    sumG += current_image(i, y, 1);
+                    sumB += current_image(i, y, 2);
+                    count++;
+                }
+            }
+            current_image(i, j, 0) = sumR / count;
+            current_image(i, j, 1) = sumG / count;
+            current_image(i, j, 2) = sumB / count;
+        }
+    }
+
+}
+
+void blur_image(Image& current_image, int radius) {
+
+
+    vertical_blur(current_image, radius);
+    horizontal_blur(current_image, radius);
+
+}
+
+ 
+
+/*  Filter 16__"Infrared Photography"  */
+
+void Xray(Image& image) {
+    for (int i = 0; i < image.height; ++i) {
+        for (int j = 0; j < image.width; ++j) {
+            image(j, i, 0) = 255;
+
+            image(j, i, 1) = 255 - image(j, i, 1);
+
+            image(j, i, 2) = 255 - image(j, i, 2);
+        }
+    }
+}
 
 
 
