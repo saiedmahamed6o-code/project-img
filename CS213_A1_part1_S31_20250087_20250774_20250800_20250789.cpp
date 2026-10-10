@@ -1,6 +1,12 @@
 // أقسم بالله أن هذا الكود من عمل الفريق 100٪ بلا نسخ من اي مصدر أو تخليق ب Ai
+<<<<<<< HEAD
 // Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5
 // Ahmad Hany Ibrahim Akrab - 20250800 - filters-> 4,8,12,16
+=======
+// Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5,9 ,13
+//Youssef Adel Hussein Mohamed   - 20250774 - filter-> 2,6,10,14
+// Youssef Mohamed Abdul Hafeez  - 20250789 - filter-> 3,7,11,15
+>>>>>>> 54f5551d48e90ed5291e5f3c82f9461caba36766
 
 #include <iostream>
 #include <string>
@@ -19,7 +25,16 @@ void applyGrayscale(Image& img) {
         }
     }
 }
-
+//filter 3
+void invert(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0;k < 3;k++) {
+                img(i, j, k) = 255 - img(i, j, k);
+            }
+        }
+    }
+}
 
 
 //filter 5
@@ -48,6 +63,28 @@ void FlippedHorizontally(Image& img){
     img=flipped;
 }
 
+//filter 7
+void Darken(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0;k < 3;k++) {
+                img(i, j, k) = img(i, j, k) * 0.5;
+            }
+        }
+    }
+}
+
+//filter 7
+void Lighten(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for (int k = 0;k < 3;k++) {
+                int val = 255 - img(i, j, k);
+                img(i, j, k) = img(i, j, k) + (val / 2);
+            }
+        }
+    }
+}
 
 
 //filter 9
@@ -66,6 +103,20 @@ void Merge (Image& img1 , Image& img2){
     img1=newMerge;
 }
 
+//filter 11
+void cropImage(Image& img, int startX, int startY, int targetW, int targetH) {
+    Image cropped(targetW, targetH);
+
+    for (int i = 0; i < targetW; ++i) {
+        for (int j = 0; j < targetH; ++j) {
+            for (int k = 0; k < 3; ++k) {
+                cropped(i, j, k) = img(startX + i, startY + j, k);
+            }
+        }
+    }
+
+    img = cropped;
+}
 
 
 //filter 13 
@@ -174,6 +225,109 @@ void Xray(Image& image) {
             image(j, i, 1) = 255 - image(j, i, 1);
 
             image(j, i, 2) = 255 - image(j, i, 2);
+        }
+    }
+}
+
+//filter 15
+void applyPurpleFilter(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            int r = img(i, j, 0) + 50;
+            if (r > 255) r = 255;
+
+            int g = img(i, j, 1) * 0.5;
+
+            int b = img(i, j, 2) + 70;
+            if (b > 255) b = 255;
+
+            img(i, j, 0) = r;
+            img(i, j, 1) = g;
+            img(i, j, 2) = b;
+        }
+    }
+
+
+//filter 2
+void blackAndWhite(Image& img){
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            unsigned int avg = (img(i, j, 0) + img(i, j, 1) + img(i, j, 2)) / 3;
+            if(avg >=127){
+                img(i, j, 0) = 255;
+                img(i, j, 1) = 255;
+                img(i, j, 2) = 255;
+            }
+            else{
+                img(i, j, 0) = 0;
+                img(i, j, 1) = 0;
+                img(i, j, 2) = 0;
+            }
+        }
+    }
+}
+//filter 6
+void rotated90(Image& img){
+    Image rotated(img.height,img.width);
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for(int k=0;k<3;k++){
+                rotated(img.height-1-j,i,k)=img(i,j,k);
+            }
+        }
+    }
+    img=rotated;
+}
+
+//filter 6
+void rotated180(Image& img){
+    rotated90(img);
+    rotated90(img);
+}
+
+//filter 6
+void rotated270(Image& img){
+    rotated90(img);
+    rotated90(img);
+    rotated90(img);
+}
+//filter 10
+void Detect(Image& img){
+    blackAndWhite(img);
+    Image DetectImg(img.width, img.height);
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+            for(int k=0; k<3; k++){
+                if(i == 0 || j == 0 || i == img.width - 1 || j == img.height - 1){
+                    DetectImg(i,j,k) = 255;
+                }
+                else{
+                    int count = abs(img(i-1,j-1,k) - img(i,j,k));
+                    if(count > 20){
+                        DetectImg(i,j,k) = 0;
+                    }
+                    else{
+                        DetectImg(i,j,k) = 255;
+                    }
+                }
+            }
+        }
+    }
+    img = DetectImg;
+}
+//filter 14
+void applyOldTVEffect(Image& image) {
+    for (int j = 0; j < image.height; ++j) {
+        for (int i = 0; i < image.width; ++i) {
+            for (int c = 0; c < 3; ++c) {
+                int color = image(i, j, c);
+
+                if (j % 2 == 0) {
+                    color = color * 0.6;
+                }
+
+                image(i, j, c) = color;
+            }
         }
     }
 }
