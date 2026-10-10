@@ -1,6 +1,6 @@
 // أقسم بالله أن هذا الكود من عمل الفريق 100٪ بلا نسخ من اي مصدر أو تخليق ب Ai
-// Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5
-
+// Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5,9 ,13
+//Youssef Adel Hussein Mohamed   - 20250774 - filter-> 2,6,10,14
 // Youssef Mohamed Abdul Hafeez  - 20250789 - filter-> 3,7,11,15
 
 #include <iostream>
@@ -129,12 +129,26 @@ void sunlight(Image& img){
         }
     }
 }
+
+
 //filter 15
 void applyPurpleFilter(Image& img) {
     for (int i = 0; i < img.width; ++i) {
         for (int j = 0; j < img.height; ++j) {
             int r = img(i, j, 0) + 50;
             if (r > 255) r = 255;
+
+            int g = img(i, j, 1) * 0.5;
+
+            int b = img(i, j, 2) + 70;
+            if (b > 255) b = 255;
+
+            img(i, j, 0) = r;
+            img(i, j, 1) = g;
+            img(i, j, 2) = b;
+        }
+    }
+
 
 //filter 2
 void blackAndWhite(Image& img){
@@ -220,17 +234,6 @@ void applyOldTVEffect(Image& image) {
     }
 }
 
-            int g = img(i, j, 1) * 0.5;
-
-            int b = img(i, j, 2) + 70;
-            if (b > 255) b = 255;
-
-            img(i, j, 0) = r;
-            img(i, j, 1) = g;
-            img(i, j, 2) = b;
-        }
-    }
-}
 
 
 int main() {
