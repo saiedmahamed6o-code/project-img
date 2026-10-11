@@ -1,7 +1,7 @@
 // أقسم بالله أن هذا الكود من عمل الفريق 100٪ بلا نسخ من اي مصدر أو تخليق ب Ai
-// Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5
+// Alsayed Mahamed Mahmoud Ahmed - 20250087 - filter-> 1,5,9,13, ( main() ) was written by sayed mahamed
 
-// Youssef Mohamed Abdul Hafeez  - 20250789 - filter-> 3,7,11,15
+
 
 #include <iostream>
 #include <string>
@@ -20,16 +20,7 @@ void applyGrayscale(Image& img) {
         }
     }
 }
-//filter 3
-void invert(Image& img) {
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for (int k = 0;k < 3;k++) {
-                img(i, j, k) = 255 - img(i, j, k);
-            }
-        }
-    }
-}
+
 
 
 //filter 5
@@ -58,28 +49,6 @@ void FlippedHorizontally(Image& img){
     img=flipped;
 }
 
-//filter 7
-void Darken(Image& img) {
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for (int k = 0;k < 3;k++) {
-                img(i, j, k) = img(i, j, k) * 0.5;
-            }
-        }
-    }
-}
-
-//filter 7
-void Lighten(Image& img) {
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for (int k = 0;k < 3;k++) {
-                int val = 255 - img(i, j, k);
-                img(i, j, k) = img(i, j, k) + (val / 2);
-            }
-        }
-    }
-}
 
 
 //filter 9
@@ -98,20 +67,6 @@ void Merge (Image& img1 , Image& img2){
     img1=newMerge;
 }
 
-//filter 11
-void cropImage(Image& img, int startX, int startY, int targetW, int targetH) {
-    Image cropped(targetW, targetH);
-
-    for (int i = 0; i < targetW; ++i) {
-        for (int j = 0; j < targetH; ++j) {
-            for (int k = 0; k < 3; ++k) {
-                cropped(i, j, k) = img(startX + i, startY + j, k);
-            }
-        }
-    }
-
-    img = cropped;
-}
 
 
 //filter 13 
@@ -129,108 +84,8 @@ void sunlight(Image& img){
         }
     }
 }
-//filter 15
-void applyPurpleFilter(Image& img) {
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            int r = img(i, j, 0) + 50;
-            if (r > 255) r = 255;
 
-//filter 2
-void blackAndWhite(Image& img){
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            unsigned int avg = (img(i, j, 0) + img(i, j, 1) + img(i, j, 2)) / 3;
-            if(avg >=127){
-                img(i, j, 0) = 255;
-                img(i, j, 1) = 255;
-                img(i, j, 2) = 255;
-            }
-            else{
-                img(i, j, 0) = 0;
-                img(i, j, 1) = 0;
-                img(i, j, 2) = 0;
-            }
-        }
-    }
-}
-//filter 6
-void rotated90(Image& img){
-    Image rotated(img.height,img.width);
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0;k<3;k++){
-                rotated(img.height-1-j,i,k)=img(i,j,k);
-            }
-        }
-    }
-    img=rotated;
-}
 
-//filter 6
-void rotated180(Image& img){
-    rotated90(img);
-    rotated90(img);
-}
-
-//filter 6
-void rotated270(Image& img){
-    rotated90(img);
-    rotated90(img);
-    rotated90(img);
-}
-//filter 10
-void Detect(Image& img){
-    blackAndWhite(img);
-    Image DetectImg(img.width, img.height);
-    for (int i = 0; i < img.width; ++i) {
-        for (int j = 0; j < img.height; ++j) {
-            for(int k=0; k<3; k++){
-                if(i == 0 || j == 0 || i == img.width - 1 || j == img.height - 1){
-                    DetectImg(i,j,k) = 255;
-                }
-                else{
-                    int count = abs(img(i-1,j-1,k) - img(i,j,k));
-                    if(count > 20){
-                        DetectImg(i,j,k) = 0;
-                    }
-                    else{
-                        DetectImg(i,j,k) = 255;
-                    }
-                }
-            }
-        }
-    }
-    img = DetectImg;
-}
-//filter 14
-void applyOldTVEffect(Image& image) {
-    for (int j = 0; j < image.height; ++j) {
-        for (int i = 0; i < image.width; ++i) {
-            for (int c = 0; c < 3; ++c) {
-                int color = image(i, j, c);
-
-                if (j % 2 == 0) {
-                    color = color * 0.6;
-                }
-
-                image(i, j, c) = color;
-            }
-        }
-    }
-}
-
-            int g = img(i, j, 1) * 0.5;
-
-            int b = img(i, j, 2) + 70;
-            if (b > 255) b = 255;
-
-            img(i, j, 0) = r;
-            img(i, j, 1) = g;
-            img(i, j, 2) = b;
-        }
-    }
-}
 
 
 int main() {
@@ -245,45 +100,72 @@ int main() {
 
     while(run)
         for(int i=0;i<1;i++){
-            cout << "\n--- Image Processing Menu ---\n";
-            cout << "1 . Apply Grayscale Filter\n";
-            cout << "2 . Apply Black and White Filter\n";
-            cout << "3 . Apply Invert Image\n";
-            cout << "4 . Apply Adding a Frame to the Picture\n";
-            cout << "5 . Apply Flip Image\n";
-            cout << "6 . Apply Rotate Image\n";
-            cout << "7 . Apply Darken and Lighten Image\n";
-            cout << "8 . Apply Resizing Images\n";
-            cout << "9 . Apply Merge Images\n";
-            cout << "10. Apply Detect Images\n";
-            cout << "11. Apply cropped Images\n";
-            cout << "12. Apply Blur Images\n";
-            cout << "13. Apply sunlight Images\n";
-            cout << "14. Apply Old TV Effect Images\n";
-            cout << "15. Apply Purple Filter Images\n";
-            cout << "16. Apply X-Ray Images\n";
-            cout << "17. Save Image\n";
-            cout << "18. Exit\n";
+            cout<<endl<<endl;
+            cout<<  "-----------------------------------------------\n";
+            cout << "|       --- Image Processing Menu ---         |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  1  |       Apply Grayscale Filter          |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  2  |     Apply Black and White Filter      |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  3  |          Apply Invert Image           |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  4  |   Apply Adding a Frame to the Picture |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  5  |            Apply Flip Image           |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  6  |          Apply Rotate Image           |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  7  |     Apply Darken and Lighten Image    |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  8  |         Apply Resizing Images         |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  9  |          Apply Merge Images           |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  10 |         Apply Detect Images           |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  11 |         Apply cropped Images          |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  12 |          Apply Blur Images            |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  13 |        Apply sunlight Images          |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  14 |      Apply Old TV Effect Images       |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  15 |      Apply Purple Filter Images       |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  16 |          Apply X-Ray Images           |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  17 |              Save Image               |\n";
+            cout<<  "-----------------------------------------------\n";
+            cout << "|  18 |                 Exit                  |\n";
+            cout<<  "-----------------------------------------------\n\n";
             cout << "Choose an option: ";
             cin >> choice;
-
+            cout<<endl;
             switch (choice) {
                 case 1:{
                     currentImage.loadNewImage(filename);
                     applyGrayscale(currentImage);
-                    cout << "Grayscale applied successfully!\n";
+                    cout<<  "-------------------------------------\n";
+                    cout << "|  Grayscale applied successfully!  |\n";
+                    cout<<  "-------------------------------------\n";
                     break;
                 }
                 case 2:{
                     currentImage.loadNewImage(filename);
                     blackAndWhite(currentImage);
-                    cout << "black and white applied successfully!\n";
+                    cout<<  "-------------------------------------------\n";
+                    cout << "|  black and white applied successfully!  |\n";
+                    cout<<  "-----------------------------======--------\n";
                     break;
                 }
                 case 3:{
                     currentImage.loadNewImage(filename);
                     invert(currentImage);
-                    cout << "Invert applied successfully!\n";
+                    cout<<  "-------------------------------------\n";
+                    cout << "|    invert applied successfully!   |\n";
+                    cout<<  "-------------------------------------\n";
                     break;
                 }
                 case 4:{
@@ -309,6 +191,9 @@ int main() {
                         break;
                     }
                     applyFrameFilter(currentImage,r,g,b);
+                    cout<<  "-------------------------------------\n";
+                    cout << "|    Frame applied successfully!   |\n";
+                    cout<<  "-------------------------------------\n";
                    break;
                 }
                 case 5:{
@@ -321,12 +206,16 @@ int main() {
                     cout<<endl;
                     if(ans==1){
                         FlippedVertical(currentImage);
-                        cout << "Flipped Vertical applied successfully!\n";
+                        cout<<  "-----------------------------------------------\n";
+                        cout << "|    Flipped Vertical applied successfully!   |\n";
+                        cout<<  "-----------------------------------------------\n";
                         break;
                     }
                     else if(ans==2){
                         FlippedHorizontally(currentImage);
-                        cout << "Flipped Horizontally Vertical applied successfully!\n";
+                        cout<<  "-----------------------------------------------\n";
+                        cout << "|    Flipped Horizontal applied successfully!   |\n";
+                        cout<<  "-----------------------------------------------\n";
                         break;
                     }
                     else{
@@ -345,21 +234,26 @@ int main() {
                     cout<<endl;
                     if(ans2==1){
                         rotated90(currentImage);
-                        cout<<"Apply rotated 90 \n";
+                        cout<<  "-----------------------------------------\n";
+                        cout << "|    rotated 90 applied successfully!   |\n";
+                        cout<<  "-----------------------------------------\n";
                     }
                     else if(ans2==2){
                         rotated180(currentImage);
-                        cout<<"Apply rotated 180 \n";
+                        cout<<  "------------------------------------------\n";
+                        cout << "|    rotated 180 applied successfully!   |\n";
+                        cout<<  "------------------------------------------\n";
                     }
                     else if(ans2==3){
                         rotated270(currentImage);
-                        cout<<"Apply rotated 270 \n";
+                        cout<<  "------------------------------------------\n";
+                        cout << "|    rotated 270 applied successfully!   |\n";
+                        cout<<  "------------------------------------------\n";
                     }
                     else{
                         cout<<"input error\n";
                         break;
                     }
-                    cout<<"rotated applied successfully!\n";
                     break;
                 }
                 case 7:{
@@ -372,12 +266,16 @@ int main() {
                     cout<<endl;
                     if(ans3==1){
                         Darken(currentImage);
-                        cout << "Darken applied successfully!\n";
+                        cout<<  "-------------------------------------\n";
+                        cout << "|    Darken applied successfully!   |\n";
+                        cout<<  "-------------------------------------\n";
                         break;
                     }
                     else if(ans3==2){
                         Lighten(currentImage);
-                        cout << "Lighten applied successfully!\n";
+                        cout<<  "--------------------------------------\n";
+                        cout << "|    lighten applied successfully!   |\n";
+                        cout<<  "--------------------------------------\n";
                         break;
                     }
                     else{
@@ -403,7 +301,9 @@ int main() {
                     }
                     cout<<endl;
                     currentImage = resizeImage(currentImage, newWidth, newHeight);
-                    cout<<"resize applied successfully!\n";
+                    cout<<  "-------------------------------------\n";
+                    cout << "|    resize applied successfully!    |\n";
+                    cout<<  "-------------------------------------\n";
                     break;
                 }
 
@@ -415,14 +315,18 @@ int main() {
                     cout<<endl;
                     Image img2(filename2);
                     Merge(currentImage,img2);
-                    cout<<"Merge applied successfully!\n";
+                    cout<<  "-------------------------------------\n";
+                    cout << "|    Merge applied successfully!    |\n";
+                    cout<<  "-------------------------------------\n";
                     break;
                     
                 }
                 case 10:{
                     currentImage=originalImage;
                     Detect(currentImage);
-                    cout << "Image Detect successfully!\n";
+                    cout<<  "-------------------------------------\n";
+                    cout << "|    Detect applied successfully!   |\n";
+                    cout<<  "-------------------------------------\n";
                     break;
                 }
 
@@ -447,7 +351,9 @@ int main() {
                     }
                     else {
                         cropImage(currentImage, x, y, w, h);
-                        cout << "Image cropped successfully!\n";
+                        cout<<  "-------------------------------------\n";
+                        cout << "|    Croped applied successfully!   |\n";
+                        cout<<  "-------------------------------------\n";
                     }
                     break;
                 }
@@ -459,35 +365,45 @@ int main() {
                     cin>>r;
                     cout<<endl;
                     blur_image(currentImage,r);
-                    cout << "Image Blur successfully!\n";
+                    cout<<  "-------------------------------------\n";
+                    cout << "|     Blur applied successfully!    |\n";
+                    cout<<  "-------------------------------------\n";
                     break;
                 }
 
                 case 13:{
                     currentImage=originalImage;
                     sunlight(currentImage);
-                    cout<<"sunlight applied successfully!\n";
+                    cout<<  "---------------------------------------\n";
+                    cout << "|    sunlight applied successfully!   |\n";
+                    cout<<  "---------------------------------------\n";
                     break;
                 }
 
                 case 14:{
                     currentImage=originalImage;
                     applyOldTVEffect(currentImage);
-                    cout<<"apply Old TV Effect applied successfully!\n";
+                    cout<<  "--------------------------------------------\n";
+                    cout << "|    Old TV Effect applied successfully!   |\n";
+                    cout<<  "--------------------------------------------\n";
                     break;
                 }
 
                 case 15:{
                     currentImage=originalImage;
                     applyPurpleFilter(currentImage);
-                    cout<<"apply Purple Filter applied successfully!\n";
+                    cout<<  "--------------------------------------------\n";
+                    cout << "|    purple filter applied successfully!   |\n";
+                    cout<<  "--------------------------------------------\n";
                     break;
                 }
 
                 case 16:{
                     currentImage=originalImage;
                     Xray(currentImage);
-                    cout<<"X-Ray applied successfully!\n";
+                    cout<<  "------------------------------------------\n";
+                    cout << "|     Infrared applied successfully!     |\n";
+                    cout<<  "------------------------------------------\n";
                     break;
                 }
                     
@@ -496,11 +412,16 @@ int main() {
                     cout << "Enter filename to save (e.g., output.jpg): ";
                     cin >> saveName;
                     currentImage.saveImage(saveName);
-                    cout << "Image saved successfully!\n";
+                    cout<<endl;
+                    cout<<  "--------------------------------------------\n";
+                    cout << "|     Save Image applied successfully!     |\n";
+                    cout<<  "--------------------------------------------\n";
                     break;
                 }
                 case 18:{
-                    cout << "Exiting program...\n";
+                    cout<<  "----------------------------------------\n";
+                    cout << "|         EXIT Programming....!        |\n";
+                    cout<<  "----------------------------------------\n";
                     run=false;
                     break;
                 }
