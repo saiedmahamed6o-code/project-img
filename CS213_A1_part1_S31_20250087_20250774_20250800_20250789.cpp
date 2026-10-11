@@ -53,25 +53,55 @@ void invert(Image& img){
     }
 }
 
+
+
 //filter 4
-void applyFrameFilter(Image& img,int r,int g,int b) {
-	
-	int borderWidth = 15;
+void applyFrameFilter(Image& img, int r, int g, int b) {
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+        cout << "Invalid color values! Must be between 0 and 255.\n";
+        return;
+    }
 
+    int borderWidth = 15;
 
-	for (int i = 0; i < img.height; ++i) {
-		for (int j = 0; j < img.width; ++j) {
+    for (int i = 0; i < img.height; ++i) {
+        for (int j = 0; j < img.width; ++j) {
+            if (i < borderWidth || i >= img.height - borderWidth ||
+                j < borderWidth || j >= img.width - borderWidth) {
+                img(j, i, 0) = r;
+                img(j, i, 1) = g;
+                img(j, i, 2) = b;
+            }
+        }
+    }
+}
 
-			
-			if (i < borderWidth || i >= img.height - borderWidth ||
-				j < borderWidth || j >= img.width - borderWidth) {
+//filter 4
+void applyFancyFrame(Image& img, int r, int g, int b) {
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+        cout << "Invalid color values! Must be between 0 and 255.\n";
+        return;
+    }
 
-				img(j, i, 0) = r;
-				img(j, i, 1) = g;
-				img(j, i, 2) = b;
-			}
-		}
-	}
+    int outerWidth = 15;
+    int innerLine = 20;
+
+    for (int i = 0; i < img.height; ++i) {
+        for (int j = 0; j < img.width; ++j) {
+            if (i < outerWidth || i >= img.height - outerWidth ||
+                j < outerWidth || j >= img.width - outerWidth) {
+                img(j, i, 0) = r;
+                img(j, i, 1) = g;
+                img(j, i, 2) = b;
+            }
+            else if (i == innerLine || i == img.height - innerLine ||
+                j == innerLine || j == img.width - innerLine) {
+                img(j, i, 0) = 255;
+                img(j, i, 1) = 255;
+                img(j, i, 2) = 255;
+            }
+        }
+    }
 }
 
 //filter 5
@@ -319,15 +349,20 @@ void applyOldTVEffect(Image& image) {
 void applyPurpleFilter(Image& img) {
     for (int i = 0; i < img.width; ++i) {
         for (int j = 0; j < img.height; ++j) {
-            int r = img(i, j, 0) * 1.2;
+           
+            int r = img(i, j, 0) + 50;
+            if (r > 255) r = 255;
+            img(i, j, 0) = r;
 
-            int g = img(i, j, 1) * 0.1;
+        
+            int g = img(i, j, 1) * 0.5;
+            img(i, j, 1) = g;
 
-            int b = img(i, j, 2) * 1.2;
+           
 
-            img(i, j, 0) = min(255,r);
-            img(i, j, 1) = min(255,g);
-            img(i, j, 2) = min(255,b);
+            int b = img(i, j, 2) + 70;
+            if (b > 255) b = 255;
+            img(i, j, 2) = b;
         }
     }
 }
@@ -449,11 +484,30 @@ int main() {
                         cout<<"input error\n";
                         break;
                     }
-                    applyFrameFilter(currentImage,r,g,b);
-                    cout<<  "-------------------------------------\n";
-                    cout << "|    Frame applied successfully!   |\n";
-                    cout<<  "-------------------------------------\n";
-                   break;
+                    int n3;
+                    cout<<"1. frame\n";
+                    cout<<"2.Fancy Frame\n";
+                    cout<<"enetr number: ";
+                    cin>>n3;
+                    cout<<endl;
+                    if(n3==1){
+                        applyFrameFilter(currentImage,r,g,b);
+                        cout<<  "-------------------------------------\n";
+                        cout << "|    Frame applied successfully!   |\n";
+                        cout<<  "-------------------------------------\n";
+                        break;
+                    }
+                    else if(n3==2){
+                        applyFancyFrame(currentImage,r,g,b);
+                        cout<<  "------------------------------------------\n";
+                        cout << "|    Fancy Frame applied successfully!   |\n";
+                        cout<<  "------------------------------------------\n";
+                        break;
+                    }
+                    else{
+                        cout<<"input error..!\n";
+                        break;
+                    }
                 }
                 case 5:{
                     currentImage.loadNewImage(filename);
