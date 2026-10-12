@@ -155,10 +155,8 @@ Image  resizeImage(const Image& oldImg, int newWidth, int newHeight) {
     }return newImg;
 }
  
-
-//filter 12
+/*filrter 12___blur */
 void horizontal_blur(Image& current_image, int radius) {
-
     for (int j = 0; j < current_image.height; j++) {
         for (int i = 0; i < current_image.width; i++) {
             int sumR = 0, sumG = 0, sumB = 0;
@@ -178,11 +176,9 @@ void horizontal_blur(Image& current_image, int radius) {
             current_image(i, j, 2) = sumB / count;
         }
     }
-
 }
 
 void vertical_blur(Image& current_image, int radius) {
-
     for (int j = 0; j < current_image.height; j++) {
         for (int i = 0; i < current_image.width; i++) {
             int sumR = 0, sumG = 0, sumB = 0;
@@ -202,18 +198,20 @@ void vertical_blur(Image& current_image, int radius) {
             current_image(i, j, 2) = sumB / count;
         }
     }
-
 }
 
-void blur_image(Image& current_image, int radius) {
 
-
-    vertical_blur(current_image, radius);
+void blur_image(Image& current_image) {
+    int radius = 16; [cite:1]
+        vertical_blur(current_image, radius);
     horizontal_blur(current_image, radius);
-
 }
 
- 
+
+
+
+
+
 
 /*  Filter 16__"Infrared Photography"  */
 
@@ -555,9 +553,7 @@ int main() {
 
                 case 12:{
                     currentImage=originalImage;
-                    int r;
-                    cout<<"enter radius: ";
-                    cin>>r;
+                    int r = 16;
                     cout<<endl;
                     blur_image(currentImage,r);
                     cout << "Image Blur successfully!\n";
